@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="preloader">
+        <div class="preloader__bar-container">
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+            <div class="preloader__bar"></div>
+        </div>
+        <div class="wrapper">
+            <h1 class="title">Welcome To <span id="word">CopArcadia!</span></h1>
+            <img src="img/AlbedoBase_XL_A_cartoon_girl_with_bright_yellow_hair_dressed_i_0-removebg-preview.png"
+                alt="hero" class="hero-img">
+
+            <div class="loader">
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+            </div>
+
+        </div>
+        <img src="img/Bitcoin-1.svg" alt="crypto-coin" class="crypto-img">
+        <img src="img/Etherium-1.svg" alt="crypto-coin" class="crypto-img">
+        <img src="img/Monero-2.svg" alt="crypto-coin" class="crypto-img">
+        <img src="img/LiteCoin-3.svg" alt="crypto-coin" class="crypto-img">
+        <img src="img/Etherium-3.svg" alt="crypto-coin" class="crypto-img">
+        <div class="content">
+            <h1 class="page-content-title">Контент сайта</h1>
+            <p>Здесь будет основной контент после загрузки.</p>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Получаем элемент с текстом
+            const wordElement = document.getElementById('word');
+            const wordText = wordElement.innerText;
+
+            // Разбиваем текст на буквы и оборачиваем каждую в span
+            wordElement.innerHTML = wordText.split('').map(letter => `<span>${letter}</span>`).join('');
+
+            // Получаем все span-элементы с буквами
+            const letters = wordElement.querySelectorAll('span');
+
+            // Анимация с GSAP для появления букв
+            gsap.from(letters, {
+                y: 50,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.3,
+                ease: 'power4.out'
+            });
+
+            // Скрываем контент сайта изначально
+            const content = document.querySelector('.content');
+            gsap.set(content, { opacity: 0 });
+
+            // Анимация прелоадера
+            gsap.to('.preloader__bar', {
+                delay: 3, // Задержка перед началом анимации
+                height: 0,
+                stagger: {
+                    amount: 0.5
+                },
+                ease: "power4.inOut",
+                duration: 1,
+                onComplete: () => {
+                    // Показываем основной контент с небольшой задержкой
+                    gsap.to(content, {
+                        opacity: 1,
+                        ease: 'power1.out',
+                    });
+                }
+            });
+
+            // Скрываем wrapper через 2 секунды после загрузки
+            setTimeout(() => {
+                gsap.to('.wrapper', {
+                    opacity: 0,
+                    duration: .5,
+                    ease: 'power1.out',
+                    onComplete: () => {
+                        // Скрыть элемент после анимации
+                        document.querySelector('.wrapper').style.display = 'none';
+                    }
+                });
+                gsap.to('.crypto-img', {
+                    opacity: 0,
+                    duration: .5,
+                    ease: 'power1.out',
+                    onComplete: () => {
+                        // Скрыть элементы после анимации
+                        document.querySelectorAll('.crypto-img').forEach(img => {
+                            img.style.display = 'none';
+                        });
+                    }
+                });
+            }, 2500); // 2000 мс = 2 секунды
+        });
+
+    </script>
+</body>
+
+</html>
